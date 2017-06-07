@@ -35,59 +35,59 @@ var force = (function () {
     // To override default, pass loginURL in init(props)
     var loginURL = 'https://login.salesforce.com',
 
-    // The Connected App client Id. Default app id provided - Not for production use.
-    // This application supports http://localhost:8200/oauthcallback.html as a valid callback URL
-    // To override default, pass appId in init(props)
+        // The Connected App client Id. Default app id provided - Not for production use.
+        // This application supports http://localhost:8200/oauthcallback.html as a valid callback URL
+        // To override default, pass appId in init(props)
         appId = '3MVG9fMtCkV6eLheIEZplMqWfnGlf3Y.BcWdOf1qytXo9zxgbsrUbS.ExHTgUPJeb3jZeT8NYhc.hMyznKU92',
 
-    // The force.com API version to use.
-    // To override default, pass apiVersion in init(props)
+        // The force.com API version to use.
+        // To override default, pass apiVersion in init(props)
         apiVersion = 'v39.0',
 
-    // Keep track of OAuth data (access_token, refresh_token, instance_url and user_id)
+        // Keep track of OAuth data (access_token, refresh_token, instance_url and user_id)
         oauth,
 
-    // By default we store fbtoken in sessionStorage. This can be overridden in init()
+        // By default we store fbtoken in sessionStorage. This can be overridden in init()
         tokenStore = {},
 
-    // if page URL is http://localhost:3000/myapp/index.html, context is /myapp
+        // if page URL is http://localhost:3000/myapp/index.html, context is /myapp
         context = window.location.pathname.substring(0, window.location.pathname.lastIndexOf("/")),
 
-    // if page URL is http://localhost:3000/myapp/index.html, serverURL is http://localhost:3000
+        // if page URL is http://localhost:3000/myapp/index.html, serverURL is http://localhost:3000
         serverURL = window.location.protocol + '//' + window.location.hostname + (window.location.port ? ':' + window.location.port : ''),
 
-    // if page URL is http://localhost:3000/myapp/index.html, baseURL is http://localhost:3000/myapp
+        // if page URL is http://localhost:3000/myapp/index.html, baseURL is http://localhost:3000/myapp
         baseURL = serverURL + context,
 
-    // Only required when using REST APIs in an app hosted on your own server to avoid cross domain policy issues
-    // To override default, pass proxyURL in init(props)
+        // Only required when using REST APIs in an app hosted on your own server to avoid cross domain policy issues
+        // To override default, pass proxyURL in init(props)
         proxyURL = baseURL,
 
-    // if page URL is http://localhost:3000/myapp/index.html, oauthCallbackURL is http://localhost:3000/myapp/oauthcallback.html
-    // To override default, pass oauthCallbackURL in init(props)
+        // if page URL is http://localhost:3000/myapp/index.html, oauthCallbackURL is http://localhost:3000/myapp/oauthcallback.html
+        // To override default, pass oauthCallbackURL in init(props)
         oauthCallbackURL = baseURL + '/oauthcallback.html',
 
-    // Because the OAuth login spans multiple processes, we need to keep the login success and error handlers as a variables
-    // inside the module instead of keeping them local within the login function.
+        // Because the OAuth login spans multiple processes, we need to keep the login success and error handlers as a variables
+        // inside the module instead of keeping them local within the login function.
         loginSuccessHandler,
         loginErrorHandler,
 
-    // Reference to the Salesforce OAuth plugin
+        // Reference to the Salesforce OAuth plugin
         oauthPlugin,
 
-    // Reference to the Salesforce Network plugin
+        // Reference to the Salesforce Network plugin
         networkPlugin,
 
-    // Whether or not to use a CORS proxy. Defaults to false if app running in Cordova, in a VF page,
-    // or using the Salesforce console. Can be overriden in init()
+        // Whether or not to use a CORS proxy. Defaults to false if app running in Cordova, in a VF page,
+        // or using the Salesforce console. Can be overriden in init()
         useProxy = (window.cordova || window.SfdcApp || window.sforce) ? false : true,
 
-    // Where or not to use cordova for oauth and network calls
+        // Where or not to use cordova for oauth and network calls
         useCordova = window.cordova ? true : false,
 
     // Testing only
        requestHandler;
-        
+
 
     /*
      * Determines the request base URL.
@@ -405,14 +405,14 @@ var force = (function () {
         if (typeof requestHandler === "function") {
             return requestHandler(obj);
         }
-        
+
         // NB: networkPlugin will be defined only if login was done through plugin and container is using Mobile SDK 5.0 or above
-        if (networkPlugin) { 
+        if (networkPlugin) {
             requestWithPlugin(obj, successHandler, errorHandler);
         } else {
             requestWithBrowser(obj, successHandler, errorHandler);
         }
-    }        
+    }
 
     /**
      * @param path: full path or path relative to end point - required
@@ -440,7 +440,7 @@ var force = (function () {
 
     function requestWithPlugin(obj, successHandler, errorHandler) {
         var obj2 = computeEndPointIfMissing(obj.endPoint, obj.path);
-        networkPlugin.sendRequest(obj2.endPoint, obj2.path, successHandler, errorHandler, obj.method, obj.data || obj.params, obj.headerParams);        
+        networkPlugin.sendRequest(obj2.endPoint, obj2.path, successHandler, errorHandler, obj.method, obj.data || obj.params, obj.headerParams);
     }
 
     function requestWithBrowser(obj, successHandler, errorHandler) {
@@ -675,7 +675,7 @@ var force = (function () {
             errorHandler
         );
     }
-    
+
     /**
      * Convenience function to retrieve a single record based on its Id
      * @param objectName
@@ -696,10 +696,10 @@ var force = (function () {
         );
 
     }
-    
+
     /**
      * Convenience function to retrieve an attachment
-     * @param id 
+     * @param id
      * @param successHandler
      * @param errorHandler
      */
@@ -728,7 +728,7 @@ var force = (function () {
             errorHandler
         );
     }
-    
+
 
     /**
      * Convenience function to create a new record
@@ -875,7 +875,7 @@ var force = (function () {
         return request(params, successHandler, errorHandler);
 
     }
-    
+
     // The public API
     return {
         apiVersion: apiVersion,
